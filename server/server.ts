@@ -1,5 +1,6 @@
 import app from "./src/app.ts";
 import { envConfig } from "./src/config/config.ts";
+import sequelize from "./src/database/connection.ts";
 
 // const app = require("./src/app");
 
