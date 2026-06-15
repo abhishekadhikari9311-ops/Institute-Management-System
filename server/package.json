@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "type": "module",
+  "type": "commonjs",
   "scripts": {
     "start": "nodemon server.ts"
   },
@@ -12,12 +12,14 @@
   "license": "ISC",
   "devDependencies": {
     "@types/express": "^5.0.6",
+    "@types/node": "^25.9.3",
     "dotenv": "^17.4.2"
   },
   "dependencies": {
     "express": "^5.2.1",
     "mysql2": "^3.22.5",
     "nodemon": "^3.1.14",
+    "reflect-metadata": "^0.2.2",
     "sequelize": "^6.37.8",
     "sequelize-typescript": "^2.1.6",
     "ts-node": "^10.9.2",

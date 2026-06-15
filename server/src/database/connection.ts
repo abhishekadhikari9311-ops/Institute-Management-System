@@ -1,24 +1,26 @@
 import { Sequelize } from "sequelize-typescript";
-import { dbConfig } from "../config/config.ts";
-
+import { config } from "dotenv";
+import { dbConfig } from "../config/config";
+config();
 const sequelize = new Sequelize({
-  database: dbConfig.database as string,
-  username: dbConfig.username as string,
-  password: dbConfig.password as string,
+  database: dbConfig.database,
+  username: dbConfig.username,
+  password: dbConfig.password,
+  host: dbConfig.host,
   dialect: dbConfig.dialect,
-
-  host: dbConfig.host as string,
-
-  port: dbConfig.port as number,
+  port: dbConfig.port,
+  models: [__dirname + "/models"],
 });
 
 sequelize
   .authenticate()
   .then(() => {
-    console.log("Authenticated....   ,,,,  Connected......");
+    console.log("Authenticated, connceted vayo");
   })
   .catch((err) => {
-    console.log(err, "err:");
+    console.log(err);
   });
-
+sequelize.sync({ alter: true }).then(() => {
+  console.log("migrated successfully new changes");
+});
 export default sequelize;
