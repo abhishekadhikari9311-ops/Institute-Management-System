@@ -6,8 +6,19 @@
 
 // db query -->  table maa insert, read, update, delete
 
+///  login logic
+
+// email , password --> data accept  --> validation
+
+// first check email exists or not (verify) -->  yes -->  check password now  --> no --> not registered
+
+// password milyo vane   --> token generation(jwt)  -->  password milena vane -->  error message faaldine (can't login...)
+
+//token --> your identity on digital platform
+
 import { Request, Response } from "express";
 import User from "../../../database/models/user.model";
+import bcrypt from "bcryptjs";
 
 class AuthController {
   static async registerUser(req: Request, res: Response) {
@@ -25,16 +36,46 @@ class AuthController {
       });
     }
 
+    const hashPassword = await bcrypt.hash(password, 2);
+
     const data = await User.create({
       userName,
       userEmail,
-      password,
+      password: hashPassword,
     });
 
-    console.log("data:", data.dataValues);
+    // console.log("data:", data.dataValues);
 
     return res.status(200).json({
       message: "user registered successfully..............",
+    });
+  }
+
+  static async loginUser(req: Request, res: Response) {
+    const { email, password } = req.body;
+
+    const user = await User.findOne({
+      where: {
+        userEmail: email,
+      },
+    });
+
+    if (!user) {
+      return res.status(400).json({
+        message: "email not registered yet",
+      });
+    }
+
+    const isPasswordMatched = bcrypt.compare(password, user.password);
+
+    if (!isPasswordMatched) {
+      return res.status(400).json({
+        message: "invalid credintials.....can't login...........",
+      });
+    }
+
+    return res.status(200).json({
+      message: "user logged in successfully..........",
     });
   }
 }
