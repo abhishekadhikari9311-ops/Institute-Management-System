@@ -39,19 +39,20 @@ import "dotenv/config";
 // import "reflect-metadata";
 import app from "./src/app";
 import "./src/database/connection";
+import { envConfig } from "./src/config/config";
 
 // import app from "./src/app.ts";
 // import "./src/database/connection.ts";
 
 async function server() {
   try {
-    const port = 7000;
+    const port = envConfig.portNumber;
 
     app.listen(port, () => {
       console.log(`Server running on ${port}`);
     });
-  } catch (err) {
-    console.error(err);
+  } catch (err: any) {
+    console.error("err:", err);
   }
 }
 

@@ -1,10 +1,4 @@
-import {
-  Table,
-  Column,
-  Model,
-  DataType,
-  PrimaryKey,
-} from "sequelize-typescript";
+import { Table, Column, Model, DataType } from "sequelize-typescript";
 // import { UserRole } from "../../middleware/type";
 
 @Table({
@@ -21,15 +15,18 @@ class User extends Model {
   declare id: string;
   @Column({
     type: DataType.STRING,
+    allowNull: false,
   })
   declare userName: string;
   @Column({
     type: DataType.STRING,
+    unique: true,
+    allowNull: false,
   })
   declare userEmail: string;
   @Column({
     type: DataType.STRING,
-    unique: true,
+    allowNull: false,
   })
   declare password: string;
   @Column({
