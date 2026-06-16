@@ -1,6 +1,7 @@
 import { config } from "dotenv";
 import type { Dialect } from "sequelize";
 config();
+import jwt from "jsonwebtoken";
 
 export const envConfig = {
   portNumber: process.env.PORT,
@@ -13,4 +14,9 @@ export const dbConfig = {
   host: process.env.DB_HOST!,
   dialect: process.env.DB_DIALECT as Dialect,
   port: Number(process.env.DB_PORT),
+};
+
+export const jwtConfig = {
+  jwtSecretKey: process.env.JWT_SECRET_KEY as string,
+  jwtExpiryTime: process.env.JWT_EXPIRY_TIME as jwt.SignOptions["expiresIn"],
 };

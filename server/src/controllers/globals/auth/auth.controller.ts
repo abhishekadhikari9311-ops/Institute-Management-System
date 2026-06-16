@@ -19,6 +19,8 @@
 import { Request, Response } from "express";
 import User from "../../../database/models/user.model";
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+import { jwtConfig } from "../../../config/config";
 
 class AuthController {
   static async registerUser(req: Request, res: Response) {
@@ -60,6 +62,8 @@ class AuthController {
       },
     });
 
+    console.log("user:", user?.dataValues);
+
     if (!user) {
       return res.status(400).json({
         message: "email not registered yet",
@@ -74,8 +78,19 @@ class AuthController {
       });
     }
 
+    const token = jwt.sign(
+      {
+        id: user.id,
+      },
+      jwtConfig.jwtSecretKey,
+      {
+        expiresIn: jwtConfig.jwtExpiryTime,
+      },
+    );
+
     return res.status(200).json({
       message: "user logged in successfully..........",
+      token: token,
     });
   }
 }
