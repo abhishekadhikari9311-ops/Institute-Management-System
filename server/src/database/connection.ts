@@ -1,7 +1,7 @@
 import { Sequelize } from "sequelize-typescript";
-import { config } from "dotenv";
+// import { config } from "dotenv";
 import { dbConfig } from "../config/config";
-config();
+// config();
 const sequelize = new Sequelize({
   database: dbConfig.database,
   username: dbConfig.username,
