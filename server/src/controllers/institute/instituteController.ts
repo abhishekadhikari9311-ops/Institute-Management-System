@@ -2,8 +2,17 @@ import { Request, Response } from "express";
 import sequelize from "../../database/connection";
 import { instituteNumber } from "../../services/service";
 
+interface IRequestExtended extends Request {
+  user?: {
+    name: string;
+    age: number;
+  };
+}
+
 class InstituteController {
-  static async createInstitute(req: Request, res: Response) {
+  static async createInstitute(req: IRequestExtended, res: Response) {
+    console.log(req.user, "name:");
+
     const {
       instituteName,
       instituteEmail,
@@ -69,19 +78,19 @@ class InstituteController {
       },
     );
 
-    await sequelize.query(
-      `
-      CREATE TABLE teacher_${institute_id}(
-      id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-      teacherName VARCHAR(255) NOT NULL,
-      teacherEmail VARCHAR(255) NOT NULL,
-      teacherPhoneNumber VARCHAR(255) NOT NULL,
-      createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-      updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE
-      CURRENT_TIMESTAMP  
-      )
-      `,
-    );
+    // await sequelize.query(
+    //   `
+    //   CREATE TABLE teacher_${institute_id}(
+    //   id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    //   teacherName VARCHAR(255) NOT NULL,
+    //   teacherEmail VARCHAR(255) NOT NULL,s
+    //   teacherPhoneNumber VARCHAR(255) NOT NULL,
+    //   createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    //   updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE
+    //   CURRENT_TIMESTAMP
+    //   )
+    //   `,
+    // );
 
     return res.status(200).json({
       message: "institute created successfully...",
