@@ -1,54 +1,49 @@
-import { Request, Response } from "express";
+import { Response } from "express";
 import sequelize from "../../database/connection";
 import { instituteNumber } from "../../services/service";
-
-interface IRequestExtended extends Request {
-  user?: {
-    name: string;
-    age: number;
-  };
-}
+import { IRequestExtended } from "../../middlewares/type";
 
 class InstituteController {
   static async createInstitute(req: IRequestExtended, res: Response) {
-    console.log(req.user, "name:");
+    try {
+      console.log(req.user, "name in req.user:");
 
-    const {
-      instituteName,
-      instituteEmail,
-      institutePhoneNumber,
-      instituteAddress,
-    } = req.body;
+      const {
+        instituteName,
+        instituteEmail,
+        institutePhoneNumber,
+        instituteAddress,
+      } = req.body;
 
-    const { instituteVatNumber, institutePanNumber } = req.body || null;
+      const { instituteVatNumber, institutePanNumber } = req.body || null;
 
-    if (
-      !instituteName ||
-      !instituteEmail ||
-      !institutePhoneNumber ||
-      !instituteAddress
-    ) {
-      return res.status(400).json({
-        message:
-          "please provide instituteName,instituteEmail,institutePhoneNumber,instituteAddress........... ",
-      });
-    }
+      if (
+        !instituteName ||
+        !instituteEmail ||
+        !institutePhoneNumber ||
+        !instituteAddress
+      ) {
+        return res.status(400).json({
+          message:
+            "please provide instituteName,instituteEmail,institutePhoneNumber,instituteAddress........... ",
+        });
+      }
 
-    if (!institutePanNumber && !instituteVatNumber) {
-      return res.status(400).json({
-        message: "Please provide either PAN Number or VAT Number",
-      });
-    }
+      if (!institutePanNumber && !instituteVatNumber) {
+        return res.status(400).json({
+          message: "Please provide either PAN Number or VAT Number",
+        });
+      }
 
-    if (institutePanNumber && instituteVatNumber) {
-      return res.status(400).json({
-        message: "Provide either PAN Number or VAT Number, not both",
-      });
-    }
+      if (institutePanNumber && instituteVatNumber) {
+        return res.status(400).json({
+          message: "Provide either PAN Number or VAT Number, not both",
+        });
+      }
 
-    const institute_id = instituteNumber();
+      const institute_id = instituteNumber();
 
-    await sequelize.query(`CREATE TABLE IF NOT EXISTS institute_${institute_id}(
+      await sequelize.query(`CREATE TABLE IF NOT EXISTS institute_${institute_id}(
       id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
       instituteName VARCHAR(255) NOT NULL,
       instituteEmail VARCHAR(255) NOT NULL UNIQUE,
@@ -61,40 +56,46 @@ class InstituteController {
       CURRENT_TIMESTAMP  
       ) `);
 
-    await sequelize.query(
-      `
+      await sequelize.query(
+        `
         INSERT INTO institute_${institute_id}(instituteName,instituteEmail,institutePhoneNumber,instituteAddress,
         institutePanNumber,instituteVatNumber
         ) VALUES(?,?,?,?,?,?)`,
-      {
-        replacements: [
-          instituteName,
-          instituteEmail,
-          institutePhoneNumber,
-          instituteAddress,
-          institutePanNumber || null,
-          instituteVatNumber || null,
-        ],
-      },
-    );
+        {
+          replacements: [
+            instituteName,
+            instituteEmail,
+            institutePhoneNumber,
+            instituteAddress,
+            institutePanNumber || null,
+            instituteVatNumber || null,
+          ],
+        },
+      );
 
-    // await sequelize.query(
-    //   `
-    //   CREATE TABLE teacher_${institute_id}(
-    //   id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    //   teacherName VARCHAR(255) NOT NULL,
-    //   teacherEmail VARCHAR(255) NOT NULL,s
-    //   teacherPhoneNumber VARCHAR(255) NOT NULL,
-    //   createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    //   updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE
-    //   CURRENT_TIMESTAMP
-    //   )
-    //   `,
-    // );
+      // await sequelize.query(
+      //   `
+      //   CREATE TABLE teacher_${institute_id}(
+      //   id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+      //   teacherName VARCHAR(255) NOT NULL,
+      //   teacherEmail VARCHAR(255) NOT NULL,s
+      //   teacherPhoneNumber VARCHAR(255) NOT NULL,
+      //   createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      //   updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE
+      //   CURRENT_TIMESTAMP
+      //   )
+      //   `,
+      // );
 
-    return res.status(200).json({
-      message: "institute created successfully...",
-    });
+      return res.status(200).json({
+        message: "institute created successfully...",
+      });
+    } catch (err) {
+      console.log("err:", err);
+      res.status(400).json({
+        message: "cannot create the institute",
+      });
+    }
   }
 }
 
