@@ -1,10 +1,16 @@
-import { Response } from "express";
+import { NextFunction, Response } from "express";
 import sequelize from "../../database/connection";
 import { instituteNumber } from "../../services/service";
 import { IRequestExtended } from "../../middlewares/type";
+import User from "../../database/models/user.model";
 
 class InstituteController {
-  static async createInstitute(req: IRequestExtended, res: Response) {
+  
+  static async createInstitute(
+    req: IRequestExtended,
+    res: Response,
+    next: NextFunction,
+  ) {
     try {
       console.log(req.user, "name in req.user:");
 
@@ -41,7 +47,7 @@ class InstituteController {
         });
       }
 
-      const institute_id = instituteNumber();
+      const institute_id: string = instituteNumber();
 
       await sequelize.query(`CREATE TABLE IF NOT EXISTS institute_${institute_id}(
       id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -51,7 +57,7 @@ class InstituteController {
       instituteAddress VARCHAR(255) NOT NULL,
       institutePanNumber VARCHAR(255),
       instituteVatNumber VARCHAR(255),
-      createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      createdat TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
       updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE
       CURRENT_TIMESTAMP  
       ) `);
@@ -73,23 +79,43 @@ class InstituteController {
         },
       );
 
-      // await sequelize.query(
-      //   `
-      //   CREATE TABLE teacher_${institute_id}(
-      //   id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-      //   teacherName VARCHAR(255) NOT NULL,
-      //   teacherEmail VARCHAR(255) NOT NULL,s
-      //   teacherPhoneNumber VARCHAR(255) NOT NULL,
-      //   createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-      //   updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE
-      //   CURRENT_TIMESTAMP
-      //   )
-      //   `,
-      // );
+      await sequelize.query(`
+CREATE TABLE IF NOT EXISTS user_institute(
+  id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  userId VARCHAR(36),
+  institute_id VARCHAR(255) UNIQUE
+)
+`);
 
-      return res.status(200).json({
-        message: "institute created successfully...",
-      });
+      if (req.user) {
+        await sequelize.query(
+          `
+        INSERT INTO user_institute(userId,institute_id) values(?,?)`,
+          {
+            replacements: [req.user.id, institute_id],
+          },
+        );
+      }
+
+      if (req.user) {
+        await User.update(
+          {
+            currentInstituteNumber: institute_id,
+            role: "institute",
+          },
+          {
+            where: {
+              id: req.user.id,
+            },
+          },
+        );
+      }
+
+      if (req.user) {
+        req.user.institute_id = institute_id;
+      }
+
+      next();
     } catch (err) {
       console.log("err:", err);
       res.status(400).json({
@@ -97,6 +123,62 @@ class InstituteController {
       });
     }
   }
+
+  static async createTeacher(
+    req: IRequestExtended,
+    res: Response,
+    next: NextFunction,
+  ) {
+    try {
+      await sequelize.query(
+        `
+        CREATE TABLE teacher_${req.user?.institute_id}(
+        id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+        teacherName VARCHAR(255) NOT NULL,
+        teacherEmail VARCHAR(255) NOT NULL,
+        teacherPhoneNumber VARCHAR(255) NOT NULL,
+        createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE
+        CURRENT_TIMESTAMP
+        )
+        `,
+      );
+    } catch (err) {
+      res.status(200).json({
+        message: "failed for logic..........",
+      });
+    }
+    next();
+  }
+
+  static async createStudent(req: IRequestExtended, res: Response) {
+    try {
+      await sequelize.query(
+        `
+   CREATE TABLE student_${req.user?.institute_id}(
+   id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+   studentName VARCHAR(255) NOT NULL,
+   studentEmail VARCHAR(255) NOT NULL,
+   studentPhoneNumber VARCHAR(255) NOT NULL,
+   createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+   updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE
+        CURRENT_TIMESTAMP
+   )
+   `,
+      );
+
+      res.status(200).json({
+        message: "student created successfully...........",
+      });
+    } catch (err) {
+      console.log("Student Creation Error:", err);
+
+      res.status(400).json({
+        message: "failed for logic...........",
+      });
+    }
+  }
+
 }
 
 export default InstituteController;

@@ -20,7 +20,7 @@ sequelize
   .catch((err) => {
     console.log(err);
   });
-sequelize.sync({ alter: false }).then(() => {
+sequelize.sync().then(() => {
   console.log("migrated successfully new changes");
 });
 export default sequelize;

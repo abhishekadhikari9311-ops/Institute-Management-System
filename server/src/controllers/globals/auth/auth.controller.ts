@@ -32,9 +32,13 @@ class AuthController {
       });
     }
 
-    if (userEmail > 0) {
+    const existingUser = await User.findOne({
+      where: { userEmail },
+    });
+
+    if (existingUser) {
       return res.status(400).json({
-        message: "user email already registered... please choose another....",
+        message: "User email already registered. Please choose another.",
       });
     }
 

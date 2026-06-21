@@ -7,7 +7,8 @@ export interface IRequestExtended extends Request {
     userEmail: string;
     password: string;
     role: string;
-    createdAt?: Date;
+    createdat?: Date;
     updatedAt?: Date;
+    institute_id?: string | null;
   };
 }
