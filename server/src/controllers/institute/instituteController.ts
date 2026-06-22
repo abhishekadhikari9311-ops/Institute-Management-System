@@ -152,9 +152,14 @@ CREATE TABLE IF NOT EXISTS user_institute(
     next();
   }
 
-  static async createStudent(req: IRequestExtended, res: Response) {
-    await sequelize.query(
-      `
+  static async createStudent(
+    req: IRequestExtended,
+    res: Response,
+    next: NextFunction,
+  ) {
+    try {
+      await sequelize.query(
+        `
    CREATE TABLE student_${req.user?.institute_id}(
    id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
    studentName VARCHAR(255) NOT NULL,
@@ -168,10 +173,32 @@ CREATE TABLE IF NOT EXISTS user_institute(
         CURRENT_TIMESTAMP
    )
    `,
-    );
+      );
 
+      next();
+    } catch (err) {
+      console.log("err:", err);
+      res.status(400).json({
+        message: "student created failure...........",
+      });
+    }
+  }
+
+  static async createCourse(req: IRequestExtended, res: Response) {
+    await sequelize.query(
+      `
+      CREATE TABLE course_${req.user?.institute_id}(
+      id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+      courseName VARCHAR(255) NOT NULL,
+      coursePrice INT NOT NULL,
+      createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+   updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE
+        CURRENT_TIMESTAMP
+      )
+      `,
+    );
     res.status(200).json({
-      message: "student created successfully...........",
+      message: "course created successfully............##",
     });
   }
 }

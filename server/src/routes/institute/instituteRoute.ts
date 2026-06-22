@@ -11,7 +11,8 @@ router
     Middleware.isLoggedIn,
     InstituteController.createInstitute,
     InstituteController.createTeacher,
-    asyncErrorHandler(InstituteController.createStudent),
+    InstituteController.createStudent,
+    asyncErrorHandler(InstituteController.createCourse),
   );
 
 export default router;
