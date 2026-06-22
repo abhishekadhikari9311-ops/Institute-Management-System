@@ -5,7 +5,6 @@ import { IRequestExtended } from "../../middlewares/type";
 import User from "../../database/models/user.model";
 
 class InstituteController {
-  
   static async createInstitute(
     req: IRequestExtended,
     res: Response,
@@ -152,9 +151,8 @@ CREATE TABLE IF NOT EXISTS user_institute(
   }
 
   static async createStudent(req: IRequestExtended, res: Response) {
-    try {
-      await sequelize.query(
-        `
+    await sequelize.query(
+      `
    CREATE TABLE student_${req.user?.institute_id}(
    id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
    studentName VARCHAR(255) NOT NULL,
@@ -165,20 +163,12 @@ CREATE TABLE IF NOT EXISTS user_institute(
         CURRENT_TIMESTAMP
    )
    `,
-      );
+    );
 
-      res.status(200).json({
-        message: "student created successfully...........",
-      });
-    } catch (err) {
-      console.log("Student Creation Error:", err);
-
-      res.status(400).json({
-        message: "failed for logic...........",
-      });
-    }
+    res.status(200).json({
+      message: "student created successfully...........",
+    });
   }
-
 }
 
 export default InstituteController;
