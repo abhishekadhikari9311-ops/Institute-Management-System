@@ -136,6 +136,8 @@ CREATE TABLE IF NOT EXISTS user_institute(
         teacherName VARCHAR(255) NOT NULL,
         teacherEmail VARCHAR(255) NOT NULL,
         teacherPhoneNumber VARCHAR(255) NOT NULL,
+        teacherExpertise VARCHAR(255),
+        joinedDate DATE,
         createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE
         CURRENT_TIMESTAMP
@@ -158,6 +160,9 @@ CREATE TABLE IF NOT EXISTS user_institute(
    studentName VARCHAR(255) NOT NULL,
    studentEmail VARCHAR(255) NOT NULL,
    studentPhoneNumber VARCHAR(255) NOT NULL,
+   studentAddress TEXT,
+   enrolledDate DATE,
+   studentImage VARCHAR(255),
    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
    updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE
         CURRENT_TIMESTAMP
