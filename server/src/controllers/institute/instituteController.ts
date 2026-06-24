@@ -111,7 +111,7 @@ CREATE TABLE IF NOT EXISTS user_institute(
       }
 
       if (req.user) {
-        req.user.institute_id = institute_id;
+        req.user.currentInstituteNumber = institute_id;
       }
 
       next();
@@ -131,7 +131,7 @@ CREATE TABLE IF NOT EXISTS user_institute(
     try {
       await sequelize.query(
         `
-        CREATE TABLE teacher_${req.user?.institute_id}(
+        CREATE TABLE teacher_${req.user?.currentInstituteNumber}(
         id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
         teacherName VARCHAR(255) NOT NULL,
         teacherEmail VARCHAR(255) NOT NULL,
@@ -160,7 +160,7 @@ CREATE TABLE IF NOT EXISTS user_institute(
     try {
       await sequelize.query(
         `
-   CREATE TABLE student_${req.user?.institute_id}(
+   CREATE TABLE student_${req.user?.currentInstituteNumber}(
    id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
    studentName VARCHAR(255) NOT NULL,
    studentEmail VARCHAR(255) NOT NULL,
@@ -185,18 +185,25 @@ CREATE TABLE IF NOT EXISTS user_institute(
   }
 
   static async createCourse(req: IRequestExtended, res: Response) {
+    const institute_id = req.user?.currentInstituteNumber;
+
     await sequelize.query(
       `
-      CREATE TABLE course_${req.user?.institute_id}(
+      CREATE TABLE course_${req.user?.currentInstituteNumber}(
       id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
       courseName VARCHAR(255) NOT NULL,
       coursePrice INT NOT NULL,
+      courseDescription VARCHAR(255) NOT NULL,
+      courseDuration INT NOT NULL,
+      courseLevel VARCHAR(255) NOT NULL,
+      courseThumbnail VARCHAR(255) NOT NULL,
       createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
    updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE
         CURRENT_TIMESTAMP
       )
       `,
     );
+
     res.status(200).json({
       message: "course created successfully............##",
     });

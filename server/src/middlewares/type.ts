@@ -7,8 +7,9 @@ export interface IRequestExtended extends Request {
     userEmail: string;
     password: string;
     role: string;
-    createdat?: Date;
+    createdAt?: Date;
     updatedAt?: Date;
-    institute_id?: string | null;
+    currentInstituteNumber?: string | number | null;
   };
+  file?: Express.Multer.File | undefined;
 }
