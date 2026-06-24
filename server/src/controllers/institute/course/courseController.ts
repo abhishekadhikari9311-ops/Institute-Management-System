@@ -8,10 +8,10 @@ class CourseController {
   static async createCourse(req: IRequestExtended, res: Response) {
     const institute_id = req.user?.currentInstituteNumber;
 
-    console.log(req.file, "FILE");
-
-    const courseThumbnail = req.file ? req.file.filename : null;
+    const courseThumbnail = req.file ? req.file.path : null;
     console.log("coursethumbnail:-", courseThumbnail);
+
+    console.log(req.file, "FILE");
 
     const {
       courseName,
@@ -50,7 +50,7 @@ class CourseController {
             courseDescription,
             courseDuration,
             courseLevel,
-            courseThumbnail
+            courseThumbnail,
           ],
         },
       );

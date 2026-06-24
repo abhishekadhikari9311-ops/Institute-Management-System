@@ -9,7 +9,7 @@ export interface IRequestExtended extends Request {
     role: string;
     createdAt?: Date;
     updatedAt?: Date;
-    currentInstituteNumber?: string | number | null;
+    currentInstituteNumber?: string | null;
   };
   file?: Express.Multer.File | undefined;
 }

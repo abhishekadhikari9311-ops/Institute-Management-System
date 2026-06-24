@@ -196,7 +196,7 @@ CREATE TABLE IF NOT EXISTS user_institute(
       courseDescription VARCHAR(255) NOT NULL,
       courseDuration INT NOT NULL,
       courseLevel VARCHAR(255) NOT NULL,
-      courseThumbnail VARCHAR(255) NOT NULL,
+      courseThumbnail VARCHAR(255) NOT NULL UNIQUE,
       createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
    updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE
         CURRENT_TIMESTAMP
