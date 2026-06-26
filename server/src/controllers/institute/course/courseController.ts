@@ -11,6 +11,8 @@ class CourseController {
 
     const { categoryId } = req.params;
 
+    const { teacherId } = req.params;
+
     const courseThumbnail = req.file ? req.file.path : null;
     console.log("coursethumbnail:-", courseThumbnail);
 
@@ -31,7 +33,8 @@ class CourseController {
       !courseDuration ||
       !courseLevel ||
       !courseThumbnail ||
-      !categoryId
+      !categoryId ||
+      !teacherId
     ) {
       return res.status(400).json({
         message: "all fields are mandatory!",
@@ -46,7 +49,7 @@ class CourseController {
     if (req.user) {
       const courseData = await sequelize.query(
         `
-        INSERT INTO course_${institute_id}(courseName,coursePrice,courseDescription,courseDuration,courseLevel,courseThumbnail,categoryId) VALUES(?,?,?,?,?,?,?)`,
+        INSERT INTO course_${institute_id}(courseName,coursePrice,courseDescription,courseDuration,courseLevel,courseThumbnail,categoryId,teacherId) VALUES(?,?,?,?,?,?,?,?)`,
 
         {
           replacements: [
@@ -57,6 +60,7 @@ class CourseController {
             courseLevel,
             courseThumbnail,
             categoryId,
+            teacherId,
           ],
           type: QueryTypes.INSERT,
         },

@@ -7,7 +7,7 @@ import upload from "../../../services/cloudinaryConfig";
 const router: Router = express.Router();
 
 router
-  .route("/:categoryId")
+  .route("/:categoryId/:teacherId")
   .post(
     Middleware.isLoggedIn,
     upload.single("courseThumbnail"),

@@ -138,6 +138,9 @@ CREATE TABLE IF NOT EXISTS user_institute(
         teacherPhoneNumber VARCHAR(255) NOT NULL,
         teacherExpertise VARCHAR(255),
         joinedDate DATE,
+        salary VARCHAR(255),
+        teacherPhoto VARCHAR(255),
+        teacherAddress VARCHAR(255),
         createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE
         CURRENT_TIMESTAMP
@@ -218,6 +221,8 @@ CREATE TABLE IF NOT EXISTS course_${institute_id}(
   courseThumbnail VARCHAR(255) NOT NULL UNIQUE,
 
   categoryId VARCHAR(255) NOT NULL,
+
+  teacherId VARCHAR(255) NOT NULL REFERENCES teacher_${institute_id}(id),
 
   CONSTRAINT fk_course_category
     FOREIGN KEY (categoryId)
