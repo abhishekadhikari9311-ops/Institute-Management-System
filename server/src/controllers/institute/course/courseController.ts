@@ -9,9 +9,7 @@ class CourseController {
   static async createCourse(req: IRequestExtended, res: Response) {
     const institute_id = req.user?.currentInstituteNumber;
 
-    const { categoryId } = req.params;
-
-    const { teacherId } = req.params;
+    const { categoryId, teacherId } = req.params;
 
     const courseThumbnail = req.file ? req.file.path : null;
     console.log("coursethumbnail:-", courseThumbnail);
@@ -149,6 +147,7 @@ category_${institute_id}.id
       data,
     });
   }
+  
 }
 
 export default CourseController;
