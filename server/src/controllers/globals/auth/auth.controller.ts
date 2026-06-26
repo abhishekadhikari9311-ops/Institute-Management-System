@@ -50,8 +50,6 @@ class AuthController {
       password: hashPassword,
     });
 
-    // console.log("data:", data.dataValues);
-
     return res.status(200).json({
       message: "user registered successfully..............",
     });
@@ -66,7 +64,7 @@ class AuthController {
       },
     });
 
-    console.log("user:", user?.dataValues);
+    // console.log("user:", user?.dataValues);
 
     if (!user) {
       return res.status(400).json({

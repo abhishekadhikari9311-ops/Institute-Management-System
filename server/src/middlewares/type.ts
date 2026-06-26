@@ -10,6 +10,8 @@ export interface IRequestExtended extends Request {
     createdAt?: Date;
     updatedAt?: Date;
     currentInstituteNumber?: string | null;
+    courseName?: string;
+    courseDescription?: string;
   };
   file?: Express.Multer.File | undefined;
 }

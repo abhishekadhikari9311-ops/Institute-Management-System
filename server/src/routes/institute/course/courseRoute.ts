@@ -7,11 +7,29 @@ import upload from "../../../services/cloudinaryConfig";
 const router: Router = express.Router();
 
 router
-  .route("/")
+  .route("/:categoryId")
   .post(
     Middleware.isLoggedIn,
     upload.single("courseThumbnail"),
     asyncErrorHandler(CourseController.createCourse),
+  );
+
+router
+  .route("/")
+  .get(Middleware.isLoggedIn, asyncErrorHandler(CourseController.getAllCourse));
+
+router
+  .route("/single")
+  .get(
+    Middleware.isLoggedIn,
+    asyncErrorHandler(CourseController.getSingleCourse),
+  );
+
+router
+  .route("/delete/:id")
+  .delete(
+    Middleware.isLoggedIn,
+    asyncErrorHandler(CourseController.deleteCourse),
   );
 
 export default router;

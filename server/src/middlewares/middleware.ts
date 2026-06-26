@@ -4,20 +4,6 @@ import { jwtConfig } from "../config/config";
 import User from "../database/models/user.model";
 import { IRequestExtended } from "./type";
 
-// interface IExtendedRequest extends Request {
-//   user;
-// }
-
-// interface IDataValues {
-//   dataValues: {
-//     id: string;
-//     userName: string;
-//     userEmail: string;
-//     password: string;
-//     role: string;
-//   };
-// }
-
 class Middleware {
   static async isLoggedIn(
     req: IRequestExtended,

@@ -49,7 +49,7 @@ class InstituteController {
       const institute_id: string = instituteNumber();
 
       await sequelize.query(`CREATE TABLE IF NOT EXISTS institute_${institute_id}(
-      id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+     id VARCHAR(255) NOT NULL PRIMARY KEY  DEFAULT (UUID()),
       instituteName VARCHAR(255) NOT NULL,
       instituteEmail VARCHAR(255) NOT NULL UNIQUE,
       institutePhoneNumber VARCHAR(255) NOT NULL UNIQUE,
@@ -117,7 +117,7 @@ CREATE TABLE IF NOT EXISTS user_institute(
       next();
     } catch (err) {
       console.log("err:", err);
-      res.status(400).json({
+      res.status(500).json({
         message: "cannot create the institute",
       });
     }
@@ -132,7 +132,7 @@ CREATE TABLE IF NOT EXISTS user_institute(
       await sequelize.query(
         `
         CREATE TABLE teacher_${req.user?.currentInstituteNumber}(
-        id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+       id VARCHAR(255) NOT NULL PRIMARY KEY  DEFAULT (UUID()),
         teacherName VARCHAR(255) NOT NULL,
         teacherEmail VARCHAR(255) NOT NULL,
         teacherPhoneNumber VARCHAR(255) NOT NULL,
@@ -161,7 +161,7 @@ CREATE TABLE IF NOT EXISTS user_institute(
       await sequelize.query(
         `
    CREATE TABLE student_${req.user?.currentInstituteNumber}(
-   id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+ id VARCHAR(255) NOT NULL PRIMARY KEY  DEFAULT (UUID()),
    studentName VARCHAR(255) NOT NULL,
    studentEmail VARCHAR(255) NOT NULL,
    studentPhoneNumber VARCHAR(255) NOT NULL,
@@ -184,28 +184,56 @@ CREATE TABLE IF NOT EXISTS user_institute(
     }
   }
 
+  static async createCategory(
+    req: IRequestExtended,
+    res: Response,
+    next: NextFunction,
+  ) {
+    const institute_id = req.user?.currentInstituteNumber;
+
+    await sequelize.query(`
+  CREATE TABLE IF NOT EXISTS category_${institute_id} (
+  id VARCHAR(255) NOT NULL PRIMARY KEY  DEFAULT (UUID()),
+    categoryName VARCHAR(255) NOT NULL,
+    categoryDescription TEXT,
+    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      ON UPDATE CURRENT_TIMESTAMP
+  )
+`);
+    next();
+  }
+
   static async createCourse(req: IRequestExtended, res: Response) {
     const institute_id = req.user?.currentInstituteNumber;
 
-    await sequelize.query(
-      `
-      CREATE TABLE course_${req.user?.currentInstituteNumber}(
-      id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-      courseName VARCHAR(255) NOT NULL,
-      coursePrice INT NOT NULL,
-      courseDescription VARCHAR(255) NOT NULL,
-      courseDuration INT NOT NULL,
-      courseLevel VARCHAR(255) NOT NULL,
-      courseThumbnail VARCHAR(255) NOT NULL UNIQUE,
-      createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-   updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE
-        CURRENT_TIMESTAMP
-      )
-      `,
-    );
+    await sequelize.query(`
+CREATE TABLE IF NOT EXISTS course_${institute_id}(
+  id VARCHAR(255) NOT NULL PRIMARY KEY DEFAULT (UUID()),
+  courseName VARCHAR(255) NOT NULL,
+  coursePrice INT NOT NULL,
+  courseDescription VARCHAR(255) NOT NULL,
+  courseDuration INT NOT NULL,
+  courseLevel VARCHAR(255) NOT NULL,
+  courseThumbnail VARCHAR(255) NOT NULL UNIQUE,
 
-    res.status(200).json({
-      message: "course created successfully............##",
+  categoryId VARCHAR(255) NOT NULL,
+
+  CONSTRAINT fk_course_category
+    FOREIGN KEY (categoryId)
+    REFERENCES category_${institute_id}(id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+
+  createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    ON UPDATE CURRENT_TIMESTAMP
+)
+`);
+
+    return res.status(200).json({
+      message: "category table created successfully...",
+      institute_id,
     });
   }
 }
