@@ -29,6 +29,7 @@ class CategoryController {
     return res.status(200).json({
       message: "category created successfully.........",
       data,
+      institute_id,
     });
   }
 
