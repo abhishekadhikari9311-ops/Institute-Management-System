@@ -1,9 +1,9 @@
 import { Response } from "express";
-import { IRequestExtended } from "../../middlewares/type";
-import sequelize from "../../database/connection";
+import { IRequestExtended } from "../../../middlewares/type";
+import sequelize from "../../../database/connection";
 import { QueryTypes } from "sequelize";
-import sendMail from "../../services/sendMail";
-import { generateRandomPassword } from "../../services/service";
+import sendMail from "../../../services/sendMail";
+import { generateRandomPassword } from "../../../services/service";
 
 class TeacherController {
   static async createTeacher(req: IRequestExtended, res: Response) {

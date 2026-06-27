@@ -1,8 +1,8 @@
 import express, { Router } from "express";
-import Middleware from "../../middlewares/middleware";
-import asyncErrorHandler from "../../middlewares/asyncErrorHandling";
-import TeacherController from "../../controllers/teacher/teacherController";
-import upload from "../../services/cloudinaryConfig";
+import Middleware from "../../../middlewares/middleware";
+import asyncErrorHandler from "../../../middlewares/asyncErrorHandling";
+import TeacherController from "../../../controllers/institute/teacher/teacherController";
+import upload from "../../../services/cloudinaryConfig";
 
 const router: Router = express.Router();
 
