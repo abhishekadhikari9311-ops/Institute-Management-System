@@ -134,13 +134,14 @@ CREATE TABLE IF NOT EXISTS user_institute(
         CREATE TABLE teacher_${req.user?.currentInstituteNumber}(
        id VARCHAR(255) NOT NULL PRIMARY KEY  DEFAULT (UUID()),
         teacherName VARCHAR(255) NOT NULL,
-        teacherEmail VARCHAR(255) NOT NULL,
+        teacherEmail VARCHAR(255) NOT NULL UNIQUE,
         teacherPhoneNumber VARCHAR(255) NOT NULL,
         teacherExpertise VARCHAR(255),
         joinedDate DATE,
         salary VARCHAR(255),
         teacherPhoto VARCHAR(255),
         teacherAddress VARCHAR(255),
+        teacherPassword VARCHAR(255) NOT NULL,
         courseId VARCHAR(255) REFERENCES course_${req.user?.currentInstituteNumber}(id),
         createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE

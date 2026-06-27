@@ -3,6 +3,7 @@ import { IRequestExtended } from "../../middlewares/type";
 import sequelize from "../../database/connection";
 import { QueryTypes } from "sequelize";
 import sendMail from "../../services/sendMail";
+import { generateRandomPassword } from "../../services/service";
 
 class TeacherController {
   static async createTeacher(req: IRequestExtended, res: Response) {
@@ -16,6 +17,8 @@ class TeacherController {
       teacherJoinedDate,
       teacherSalary,
       teacherAddress,
+      courseId,
+      teacherPassword,
     } = req.body;
 
     const teacherPhoto = req.file ? req.file.path : null;
@@ -23,6 +26,26 @@ class TeacherController {
     if (!req.body) {
       return res.status(400).json({
         message: "Request body is missing",
+      });
+    }
+
+    const emailExists = await sequelize.query(
+      `
+SELECT id
+FROM teacher_${institute_id}
+WHERE teacherEmail=?
+LIMIT 1
+`,
+      {
+        type: QueryTypes.SELECT,
+        replacements: [teacherEmail],
+      },
+    );
+
+    if (emailExists.length > 0) {
+      return res.status(409).json({
+        success: false,
+        message: "Teacher email already exists.",
       });
     }
 
@@ -34,18 +57,26 @@ class TeacherController {
       !teacherJoinedDate ||
       !teacherSalary ||
       !teacherPhoto ||
-      !teacherAddress
+      !teacherAddress ||
+      !courseId ||
+      !teacherPassword
     ) {
       return res.status(400).json({
         message: "all fields are compulsory.......",
       });
     }
 
-    const data = await sequelize.query(
+    const finalPassword = await generateRandomPassword(
+      teacherPassword,
+      teacherName,
+    );
+    console.log("finalPassword:--------", finalPassword);
+
+    await sequelize.query(
       `
      INSERT INTO teacher_${req.user?.currentInstituteNumber}(
-     teacherName,teacherEmail,teacherPhoneNumber,teacherExpertise,joinedDate,salary,teacherPhoto,teacherAddress
-     ) VALUES(?,?,?,?,?,?,?,?)   
+     teacherName,teacherEmail,teacherPhoneNumber,teacherExpertise,joinedDate,salary,teacherPhoto,teacherAddress,courseId,teacherPassword
+     ) VALUES(?,?,?,?,?,?,?,?,?,?)   
         `,
       {
         replacements: [
@@ -57,19 +88,34 @@ class TeacherController {
           teacherSalary,
           teacherPhoto,
           teacherAddress,
+          courseId,
+          finalPassword.encriptedVersion,
         ],
         type: QueryTypes.INSERT,
       },
     );
-    console.log("data:", data);
 
-    if (!data) {
-      return res.status(400).json({
-        message: "data failed to insert........",
-        data,
-        institute_id,
-      });
-    }
+    const teacherData: { id: string }[] = await sequelize.query(
+      `
+    SELECT id FROM teacher_${institute_id} WHERE teacherEmail=?
+    `,
+      {
+        type: QueryTypes.SELECT,
+        replacements: [teacherEmail],
+      },
+    );
+
+    console.log("teacherData:----", teacherData);
+
+    await sequelize.query(
+      `
+      UPDATE course_${institute_id} SET teacherId=? WHERE id=?;
+      `,
+      {
+        type: QueryTypes.UPDATE,
+        replacements: [teacherData[0].id, req.user?.id],
+      },
+    );
 
     //  email patthaune tarikaa..........
 
@@ -358,8 +404,8 @@ This invitation is provided solely for participation in the University's recruit
 
     const mailFormatObject = {
       from: "NEW YORK UNIVERSITY<rahulsharmax9q7v2l8@gmail.com >",
-      to: teacherEmail,
-      subject: "Welcome To Our University Guy......!",
+      to: `${teacherEmail}`,
+      subject: `Welcome To Our Institute Guy...mr...${teacherName}! your current password is ${finalPassword.plainVersion}`,
       // text: "please login in wth the given details....",
       htmltext: html,
     };
@@ -370,7 +416,7 @@ This invitation is provided solely for participation in the University's recruit
 
     return res.status(200).json({
       message: "teacher created successfully..........",
-      data,
+
       institute_id,
     });
   }
