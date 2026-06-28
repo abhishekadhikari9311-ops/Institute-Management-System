@@ -3,7 +3,8 @@ import authroute from "./routes/globals/auth/auth.route";
 import instituteroute from "./routes/institute/instituteRoute";
 import courseroute from "./routes/institute/course/courseRoute";
 import categoryRoute from "./routes/institute/category/categoryRoute";
-import teacherRoute from "./routes/institute/teacher/teacherRoute";
+import instituteRoute from "./routes/institute/teacher/teacherRoute";
+import teacherRoute from "./routes/teacher/teacherRoute";
 
 const app = express();
 
@@ -12,6 +13,8 @@ app.use(express.json());
 app.use("/", authroute);
 
 app.use("/", instituteroute);
+
+app.use("/institute", instituteRoute);
 
 app.use("/teacher", teacherRoute);
 

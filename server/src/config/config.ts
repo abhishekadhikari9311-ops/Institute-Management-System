@@ -18,7 +18,7 @@ export const dbConfig = {
 
 export const jwtConfig = {
   jwtSecretKey: process.env.JWT_SECRET_KEY as string,
-  jwtExpiryTime: process.env.JWT_EXPIRY_TIME as jwt.SignOptions["expiresIn"],
+  jwtExpiryTime: process.env.JWT_EXPIRY_TIME as jwt.SignOptions["expiresIn"] 
 };
 
 export const mailConfig = {

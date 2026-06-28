@@ -119,295 +119,294 @@ LIMIT 1
 
     //  email patthaune tarikaa..........
 
-    const html = `
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>University Invitation Letter</title>
-
-<style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
-
-body{
-    background:#eef2f7;
-    font-family:Georgia,"Times New Roman",serif;
-    color:#333;
-    padding:40px;
-}
-
-.letter{
-    max-width:900px;
-    margin:auto;
-    background:#fff;
-    border:1px solid #d7d7d7;
-    border-radius:8px;
-    box-shadow:0 12px 35px rgba(0,0,0,.12);
-    overflow:hidden;
-}
-
-.header{
-    background:linear-gradient(135deg,#2f5aa8,#4a74c5);
-    color:#fff;
-    text-align:center;
-    padding:40px 50px;
-}
-
-.logo{
-    width:90px;
-    height:90px;
-    border:3px solid #fff;
-    border-radius:50%;
-    margin:0 auto 18px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:34px;
-    font-weight:bold;
-    background:rgba(255,255,255,.12);
-}
-
-.header h1{
-    font-size:34px;
-    letter-spacing:1px;
-    margin-bottom:10px;
-}
-
-.header h3{
-    font-size:18px;
-    font-weight:normal;
-}
-
-.header p{
-    margin-top:8px;
-    opacity:.95;
-}
-
-.content{
-    padding:55px;
-}
-
-.date{
-    text-align:right;
-    margin-bottom:30px;
-}
-
-.title{
-    text-align:center;
-    color:#2f5aa8;
-    margin-bottom:35px;
-    font-size:30px;
-    border-bottom:2px solid #2f5aa8;
-    padding-bottom:12px;
-}
-
-.to{
-    margin-bottom:25px;
-    line-height:1.8;
-}
-
-p{
-    margin-bottom:22px;
-    text-align:justify;
-    line-height:1.9;
-    font-size:17px;
-}
-
-h3{
-    color:#2f5aa8;
-    margin:35px 0 18px;
-}
+    //     const html = `
+    // <!DOCTYPE html>
+    // <html lang="en">
+    // <head>
+    // <meta charset="UTF-8">
+    // <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    // <title>University Invitation Letter</title>
+
+    // <style>
+    // *{
+    //     margin:0;
+    //     padding:0;
+    //     box-sizing:border-box;
+    // }
+
+    // body{
+    //     background:#eef2f7;
+    //     font-family:Georgia,"Times New Roman",serif;
+    //     color:#333;
+    //     padding:40px;
+    // }
+
+    // .letter{
+    //     max-width:900px;
+    //     margin:auto;
+    //     background:#fff;
+    //     border:1px solid #d7d7d7;
+    //     border-radius:8px;
+    //     box-shadow:0 12px 35px rgba(0,0,0,.12);
+    //     overflow:hidden;
+    // }
+
+    // .header{
+    //     background:linear-gradient(135deg,#2f5aa8,#4a74c5);
+    //     color:#fff;
+    //     text-align:center;
+    //     padding:40px 50px;
+    // }
+
+    // .logo{
+    //     width:90px;
+    //     height:90px;
+    //     border:3px solid #fff;
+    //     border-radius:50%;
+    //     margin:0 auto 18px;
+    //     display:flex;
+    //     align-items:center;
+    //     justify-content:center;
+    //     font-size:34px;
+    //     font-weight:bold;
+    //     background:rgba(255,255,255,.12);
+    // }
+
+    // .header h1{
+    //     font-size:34px;
+    //     letter-spacing:1px;
+    //     margin-bottom:10px;
+    // }
+
+    // .header h3{
+    //     font-size:18px;
+    //     font-weight:normal;
+    // }
+
+    // .header p{
+    //     margin-top:8px;
+    //     opacity:.95;
+    // }
+
+    // .content{
+    //     padding:55px;
+    // }
+
+    // .date{
+    //     text-align:right;
+    //     margin-bottom:30px;
+    // }
+
+    // .title{
+    //     text-align:center;
+    //     color:#2f5aa8;
+    //     margin-bottom:35px;
+    //     font-size:30px;
+    //     border-bottom:2px solid #2f5aa8;
+    //     padding-bottom:12px;
+    // }
+
+    // .to{
+    //     margin-bottom:25px;
+    //     line-height:1.8;
+    // }
+
+    // p{
+    //     margin-bottom:22px;
+    //     text-align:justify;
+    //     line-height:1.9;
+    //     font-size:17px;
+    // }
+
+    // h3{
+    //     color:#2f5aa8;
+    //     margin:35px 0 18px;
+    // }
 
-table{
-    width:100%;
-    border-collapse:collapse;
-    margin:20px 0 35px;
-}
+    // table{
+    //     width:100%;
+    //     border-collapse:collapse;
+    //     margin:20px 0 35px;
+    // }
 
-th{
-    background:#2f5aa8;
-    color:#fff;
-}
+    // th{
+    //     background:#2f5aa8;
+    //     color:#fff;
+    // }
 
-th,
-td{
-    border:1px solid #d8d8d8;
-    padding:14px;
-    text-align:left;
-}
+    // th,
+    // td{
+    //     border:1px solid #d8d8d8;
+    //     padding:14px;
+    //     text-align:left;
+    // }
 
-tr:nth-child(even){
-    background:#f8f9fc;
-}
+    // tr:nth-child(even){
+    //     background:#f8f9fc;
+    // }
 
-.signature{
-    margin-top:55px;
-}
+    // .signature{
+    //     margin-top:55px;
+    // }
 
-.signature strong{
-    font-size:18px;
-}
+    // .signature strong{
+    //     font-size:18px;
+    // }
 
-.footer{
-    margin-top:50px;
-    border-top:1px solid #ddd;
-    padding-top:20px;
-    text-align:center;
-    color:#666;
-    font-size:14px;
-    line-height:1.8;
-}
+    // .footer{
+    //     margin-top:50px;
+    //     border-top:1px solid #ddd;
+    //     padding-top:20px;
+    //     text-align:center;
+    //     color:#666;
+    //     font-size:14px;
+    //     line-height:1.8;
+    // }
 
-@media print{
+    // @media print{
 
-body{
-background:#fff;
-padding:0;
-}
+    // body{
+    // background:#fff;
+    // padding:0;
+    // }
 
-.letter{
-box-shadow:none;
-border:none;
-}
+    // .letter{
+    // box-shadow:none;
+    // border:none;
+    // }
 
-}
-</style>
+    // }
+    // </style>
 
-</head>
+    // </head>
 
-<body>
+    // <body>
 
-<div class="letter">
+    // <div class="letter">
 
-<div class="header">
+    // <div class="header">
 
-<div class="logo">
+    // <div class="logo">
 
-</div>
+    // </div>
 
-<h1>NEW YORK UNIVERSITY ----   OFFER LETTER
------- BY THE PRIOR REFERRAL OF ONE OF YOUR ELDER COUSIN BROTHER MR. BINSAN KHADKA
-</h1>
+    // <h1>NEW YORK UNIVERSITY ----   OFFER LETTER
+    // ------ BY THE PRIOR REFERRAL OF ONE OF YOUR ELDER COUSIN BROTHER MR. BINSAN KHADKA
+    // </h1>
 
-<h3>Office of Academic Affairs</h3>
+    // <h3>Office of Academic Affairs</h3>
 
-<p>123 University Avenue • Education City • Country</p>
+    // <p>123 University Avenue • Education City • Country</p>
 
-</div>
+    // </div>
 
-<div class="content">
+    // <div class="content">
 
-<div class="date">
-<strong>Date:</strong> ______________________
-</div>
+    // <div class="date">
+    // <strong>Date:</strong> ______________________
+    // </div>
 
-<h2 class="title">
-Invitation to Join the Faculty
-</h2>
+    // <h2 class="title">
+    // Invitation to Join the Faculty
+    // </h2>
 
-<div class="to">
-<strong>To:</strong><br><br>
+    // <div class="to">
+    // <strong>To:</strong><br><br>
 
-Recipient Name<br>
-Recipient Address<br>
-Country
-</div>
+    // Recipient Name<br>
+    // Recipient Address<br>
+    // Country
+    // </div>
 
-<p>
-Dear Sir/Madam,
-</p>
+    // <p>
+    // Dear Sir/Madam,
+    // </p>
 
-<p>
-The Office of Academic Affairs is pleased to invite you to explore an opportunity to join our academic community as an Instructor or Lecturer in the field of Information Technology. This invitation is subject to the institution's standard recruitment procedures, credential verification, and applicable employment requirements.
-</p>
+    // <p>
+    // The Office of Academic Affairs is pleased to invite you to explore an opportunity to join our academic community as an Instructor or Lecturer in the field of Information Technology. This invitation is subject to the institution's standard recruitment procedures, credential verification, and applicable employment requirements.
+    // </p>
 
-<p>
-Your professional background has been recommended through a trusted professional referral. Based on the information available to us and our preliminary review, we believe your experience and commitment to academic excellence align well with the University's educational mission.
-</p>
+    // <p>
+    // Your professional background has been recommended through a trusted professional referral. Based on the information available to us and our preliminary review, we believe your experience and commitment to academic excellence align well with the University's educational mission.
+    // </p>
 
-<p>
-We believe your knowledge, teaching experience, and dedication to student success would make a valuable contribution to our faculty and the wider academic community. We would be delighted to discuss this opportunity with you.
-</p>
+    // <p>
+    // We believe your knowledge, teaching experience, and dedication to student success would make a valuable contribution to our faculty and the wider academic community. We would be delighted to discuss this opportunity with you.
+    // </p>
 
-<h3>Proposed Position</h3>
+    // <h3>Proposed Position</h3>
 
-<table>
+    // <table>
 
-<tr>
-<th>Category</th>
-<th>Details</th>
-</tr>
+    // <tr>
+    // <th>Category</th>
+    // <th>Details</th>
+    // </tr>
 
-<tr>
-<td><strong>Position</strong></td>
-<td>Information Technology Instructor / Lecturer</td>
-</tr>
+    // <tr>
+    // <td><strong>Position</strong></td>
+    // <td>Information Technology Instructor / Lecturer</td>
+    // </tr>
 
-<tr>
-<td><strong>Department</strong></td>
-<td>School of Computing & Information Technology</td>
-</tr>
+    // <tr>
+    // <td><strong>Department</strong></td>
+    // <td>School of Computing & Information Technology</td>
+    // </tr>
 
-<tr>
-<td><strong>Employment Type</strong></td>
-<td>Subject to University Recruitment Process</td>
-</tr>
+    // <tr>
+    // <td><strong>Employment Type</strong></td>
+    // <td>Subject to University Recruitment Process</td>
+    // </tr>
 
-<tr>
-<td><strong>Campus</strong></td>
-<td>Main Campus</td>
-</tr>
+    // <tr>
+    // <td><strong>Campus</strong></td>
+    // <td>Main Campus</td>
+    // </tr>
 
-</table>
+    // </table>
 
-<p>
-Should you wish to proceed, kindly respond at your earliest convenience. Upon receiving your confirmation, our Academic Affairs and Human Resources departments will provide further information regarding interviews, documentation, and the remaining recruitment process.
-</p>
+    // <p>
+    // Should you wish to proceed, kindly respond at your earliest convenience. Upon receiving your confirmation, our Academic Affairs and Human Resources departments will provide further information regarding interviews, documentation, and the remaining recruitment process.
+    // </p>
 
-<p>
-We sincerely appreciate your interest and look forward to the possibility of welcoming you to our academic community.
-</p>
+    // <p>
+    // We sincerely appreciate your interest and look forward to the possibility of welcoming you to our academic community.
+    // </p>
 
-<div class="signature">
+    // <div class="signature">
 
-<p>Yours faithfully,</p>
+    // <p>Yours faithfully,</p>
 
-<br><br>
+    // <br><br>
 
-<strong>Office of Academic Affairs</strong><br>
+    // <strong>Office of Academic Affairs</strong><br>
 
-Generic University
+    // Generic University
 
-</div>
+    // </div>
 
-<div class="footer">
+    // <div class="footer">
 
-This invitation is provided solely for participation in the University's recruitment process. It is not an employment contract and does not guarantee appointment. Any appointment is subject to successful completion of all institutional hiring procedures and verification requirements.
+    // This invitation is provided solely for participation in the University's recruitment process. It is not an employment contract and does not guarantee appointment. Any appointment is subject to successful completion of all institutional hiring procedures and verification requirements.
 
-</div>
+    // </div>
 
-</div>
+    // </div>
 
-</div>
+    // </div>
 
-</body>
-</html>
+    // </body>
+    // </html>
 
-
-
-    `;
+    //     `;
 
     const mailFormatObject = {
       from: "NEW YORK UNIVERSITY<rahulsharmax9q7v2l8@gmail.com >",
       to: `${teacherEmail}`,
-      subject: `Welcome To Our Institute Guy...mr...${teacherName}! your current password is ${finalPassword.plainVersion}`,
-      // text: "please login in wth the given details....",
-      htmltext: html,
+      subject: `Welcome To Our Institute Guy...`,
+      text: `mr...${teacherName}! your current password is ${finalPassword.plainVersion}
+      your institute id is:------->  ${institute_id}
+      `,
     };
 
     const mail = await sendMail(mailFormatObject);

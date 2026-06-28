@@ -5,7 +5,7 @@ interface IEmailSent {
   from: string;
   to: string;
   subject: string;
-  htmltext: string;
+  text: string;
 }
 
 const sendMail = async (mailFormatObject: IEmailSent) => {
@@ -33,7 +33,7 @@ const sendMail = async (mailFormatObject: IEmailSent) => {
       from: mailFormatObject.from,
       to: mailFormatObject.to,
       subject: mailFormatObject.subject,
-      html: mailFormatObject.htmltext,
+      text: mailFormatObject.text,
     });
     return info;
   } catch (err) {
